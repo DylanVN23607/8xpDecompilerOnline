@@ -34,11 +34,16 @@
   <div id="output"></div>
 
   <script>
-    const tokenMap = fetch('tokens.json')
-  .then(response => response.json())
+    fetch('tokens.json')
+  .then(response => response.text())
+  .then(jsonString => {
+    const tokenMap = JSON.parse(jsonString);
+    console.log(tokenMap);
+  })
   .catch(error => {
-    console.error('Error fetching JSON:', error);
+    console.error('Error fetching or parsing JSON:', error);
   });
+
 
 
 function decompileTokens(hexArray) {
