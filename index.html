@@ -34,7 +34,7 @@
   <div id="output"></div>
 
   <script>
-    const tokenMap = fetch('data.json')
+    const tokenMap = fetch('tokens.json')
   .then(response => response.json())
   .catch(error => {
     console.error('Error fetching JSON:', error);
@@ -45,25 +45,22 @@ function decompileTokens(hexArray) {
   let result = "";
   for (let i = 0; i < hexArray.length; i++) {
     const byte = hexArray[i];
-    const nextByte = hexArray[i + 1]; // Peek at the next byte
+    const nextByte = hexArray[i + 1];
 
     if (tokenMap[byte] && typeof tokenMap[byte] === "object") {
-      // Potential multi-byte token
       if (tokenMap[byte][nextByte]) {
         console.log(`Matched multi-byte token: ${byte} ${nextByte}`);
         result += tokenMap[byte][nextByte];
-        i++; // Consume the next byte
+        i++;
       } else {
         console.log(`Unknown multi-byte sequence: ${byte} ${nextByte}`);
         result += `[${byte} ${nextByte}]`;
-        i++; // Consume the next byte anyway
+        i++;
       }
     } else if (tokenMap[byte]) {
-      // Single-byte token
       console.log(`Matched token: ${tokenMap[byte]}`);
       result += tokenMap[byte];
     } else {
-      // Unknown token
       console.log(`Unknown token: ${byte}`);
       result += `[${byte}]`;
     }
