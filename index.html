@@ -34,10 +34,11 @@
   <div id="output"></div>
 
   <script>
+    let tokenMap = {}
     fetch('tokens.json')
   .then(response => response.text())
   .then(jsonString => {
-    const tokenMap = JSON.parse(jsonString);
+    tokenMap = JSON.parse(jsonString);
     console.log(tokenMap);
   })
   .catch(error => {
