@@ -18,7 +18,7 @@
       background-color: #fff;
       border: 1px solid #ccc;
       border-radius: 5px;
-      white-space: nowrap;
+      white-space: pre-wrap;
       text-align: left;
       overflow: visible;
     }
@@ -34,16 +34,186 @@
   <div id="output"></div>
 
   <script>
-    let tokenMap = {}
-    fetch('tokens.json')
-  .then(response => response.text())
-  .then(jsonString => {
-    tokenMap = JSON.parse(jsonString);
-    console.log(tokenMap);
-  })
-  .catch(error => {
-    console.error('Error fetching or parsing JSON:', error);
-  });
+    let tokenMap = {
+  "EF": {
+    "5B": "BackgroundOn ",
+    "64": "BackgroundOff",
+    "97": "toString(",
+    "67": "TextColor(",
+    "43": "BLACK",
+    "45": "GREEN",
+    "96": "Wait ",
+    "41": "BLUE",
+    "42": "RED",
+    "44": "MAGENTA",
+    "46": "ORANGE",
+    "47": "BROWN",
+    "48": "NAVY",
+    "49": "LTBLUE",
+    "4A": "YELLOW",
+    "4B": "WHITE",
+    "4C": "LTGRAY",
+    "4D": "MEDGRAY",
+    "4E": "GRAY",
+    "4F": "DARKGRAY",
+    "6C": "BorderColor ",
+    "65": "GraphColor(",
+    "11": "OpenLib(",
+    "12": "ExecLib "
+  },
+  "7E": {
+    "09": "AxesOff",
+    "0B": "GridOff"
+  },
+  "63": {
+    "0B": "Xmax",
+    "0D": "Ymax",
+    "0A": "Xmin",
+    "0C": "Ymin"
+  },
+  "B0": "-",
+  "11": ")",
+  "10": "(",
+  "5B": "BackgroundOn ",
+  "45": "E",
+  "64": "BackgroundOff",
+  "DE": "Disp ",
+  "85": "ClrDraw",
+  "31": "1",
+  "32": "2",
+  "30": "0",
+  "38": "8",
+  "70": "+",
+  "71": "-",
+  "6A": "=",
+  "3F": "\n",
+  "3A": ".",
+  "04": "→",
+  "2A": "\"",
+  "29": " ",
+  "D4": "End",
+  "4B": "K",
+  "41": "A",
+  "42": "B",
+  "43": "C",
+  "44": "D",
+  "46": "F",
+  "47": "G",
+  "48": "H",
+  "49": "I",
+  "4A": "J",
+  "4C": "L",
+  "4D": "M",
+  "4E": "N",
+  "4F": "O",
+  "50": "P",
+  "51": "Q",
+  "52": "R",
+  "53": "S",
+  "54": "T",
+  "55": "U",
+  "56": "V",
+  "57": "W",
+  "58": "X",
+  "59": "Y",
+  "5A": "Z",
+  "93": "Text(",
+  "2B": ",",
+  "36": "6",
+  "37": "7",
+  "35": "5",
+  "33": "3",
+  "39": "9",
+  "83": "/",
+  "CE": "If ",
+  "40": " and ",
+  "3C": " or ",
+  "CF": "Then",
+  "6F": "≠",
+  "3E": ":",
+  "2D": "!",
+  "9C": "Line(",
+  "6E": "≥",
+  "6D": "≤",
+  "6C": ">",
+  "6B": "<",
+  "D9": "Stop",
+  "AB": "rand",
+  "D1": "While ",
+  "AD": "getKey",
+  "D0": "Else",
+
+  "DC": "Input ",
+  "D5": "Return",
+  "3B": "e",
+  "D3": "For(",
+  "D2": "Repeat ",
+  "D8": "Pause ",
+  "D6": "Lbl ",
+  "54": "T",
+  "BB": {
+    "54": "DelVar ",
+    "45": "GraphStyle(",
+    "4A": "SetUpEditor ",
+    "68": "Archive ",
+    "B5": "f",
+    "B6": "g",
+    "B7": "h",
+    "B8": "i",
+    "B9": "j",
+    "BA": "k",
+    "BC": "l",
+    "BD": "m",
+    "BF": "o",
+    "C1": "q",
+    "C8": "x",
+    "C9": "y",
+    "B4": "e",
+    "B2": "c",
+    "C4": "t",
+    "BE": "n",
+    "B0": "a",
+    "C6": "v",
+    "C2": "r",
+    "C3": "s",
+    "C5": "u",
+    "C7": "w",
+    "B3": "d",
+    "C0": "p",
+    "B1": "b",
+    "0A": "randInt("
+  },
+  "DA": "IS>(",
+  "DB": "DS<(",
+  "E6": "Menu(",
+  "5F": "prgm",
+  "D7": "Goto",
+  "EB": "⌊",
+  "B5": "dim(",
+  "62": {
+    "16": "a",
+    "17": "b",
+    "18": "c",
+    "19": "d",
+    "1A": "e",
+    "02": "n",
+    "22": "p",
+    "12": "r",
+    "34": "s",
+    "24": "t",
+    "23": "z"
+  },
+  "5E": {
+    "80": "u",
+    "81": "v",
+    "82": "w"
+  },
+  "34": "4",
+  "12": "round(",
+  "06": "[",
+  "07": "]",
+  "E1": "ClrHome"
+}
 
 
 
@@ -55,7 +225,7 @@ function decompileTokens(hexArray) {
 
     if (tokenMap[byte] && typeof tokenMap[byte] === "object") {
       if (tokenMap[byte][nextByte]) {
-        console.log(`Matched multi-byte token: ${byte} ${nextByte}`);
+        // console.log(`Matched multi-byte token: ${byte} ${nextByte}`);
         result += tokenMap[byte][nextByte];
         i++;
       } else {
@@ -64,13 +234,14 @@ function decompileTokens(hexArray) {
         i++;
       }
     } else if (tokenMap[byte]) {
-      console.log(`Matched token: ${tokenMap[byte]}`);
+      // console.log(`Matched token: ${tokenMap[byte]}`);
       result += tokenMap[byte];
     } else {
       console.log(`Unknown token: ${byte}`);
       result += `[${byte}]`;
     }
   }
+  console.log(hexArray)
   return result.trim();
 }
 
